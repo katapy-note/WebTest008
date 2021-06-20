@@ -1,8 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import app
+# from flask_sqlalchemy import SQLAlchemy
+# from DB import create_db
+from app import db
 
-db = SQLAlchemy(app)
 
+# db = SQLAlchemy(app)
+# db = create_db()
 
 class Item(db.Model):
     __tablename__ = 'items'

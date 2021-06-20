@@ -9,6 +9,8 @@ def create_app():
     db_uri = db_uri.replace('postgres:', 'postgresql:')  # postgresだとエラーになる
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
+    app.secret_key = 'xxxxyyyyyzzzzz'
+
     return app
 
 
@@ -16,3 +18,6 @@ def create_blueprint(app):
     # blueprint for auth routes in our app
     from view.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from auth.view import view as auth_blueprint
+    app.register_blueprint(auth_blueprint)
