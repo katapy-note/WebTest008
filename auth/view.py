@@ -1,9 +1,10 @@
-from flask import Blueprint, Response, request, abort, render_template
+from flask import Blueprint, Response, request, abort, render_template, session
 from flask_login import login_required, login_user, logout_user
 
-# from app import db
 from app import db
 from auth.models import User
+from mail.auth_mail import confirm_signup
+from mail.models import mail_model
 
 view = Blueprint('view', __name__)
 
@@ -50,6 +51,8 @@ def login_post():
                             <a href="/protected/">protected</a><br />
                             <a href="/logout/">logout</a>
                             ''')
+    else:
+        return render_template("auth/login.html")
 
 
 @view.route('/signup', methods=["GET"])
@@ -59,10 +62,14 @@ def signup():
 
 @view.route('/signup', methods=["POST"])
 def signup_post():
-    username = request.form["username"]
-    password = request.form["password"]
-    email = request.form["email"]
-    me = User(username=username, password=password, email=email)
-    db.session.add(me)
-    db.session.commit()
-    return render_template("auth/signup.html")
+    try:
+        username = request.form["username"]
+        password = request.form["password"]
+        email = request.form["email"]
+        me = User(username=username, password=password, email=email)
+        db.session.add(me)
+        db.session.commit()
+        confirm_signup(me)
+        return render_template("auth/login.html")
+    except:
+        return render_template("auth/signup.html")

@@ -21,3 +21,6 @@ def create_blueprint(app):
 
     from auth.view import view as auth_blueprint
     app.register_blueprint(auth_blueprint)
+
+    from mail.view import view as mail_blueprint
+    app.register_blueprint(mail_blueprint)
