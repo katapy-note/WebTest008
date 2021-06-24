@@ -16,12 +16,10 @@ class mail_transmitter():
 
     def send(self, model):
         self.init_smtpobj()
-        msg = MIMEText(model.body)
+        msg = MIMEText(model.body, 'html')
         msg['Subject'] = model.subject
         msg['Date'] = formatdate()
         print(msg)
 
-        # from_addr = self.__from
-        # self.__smtpobj.sendmail(from_addr, model.to_addr, msg.as_string())
         self.__smtpobj.sendmail(self.__from, model.to_addr, msg.as_string())
         self.__smtpobj.close()

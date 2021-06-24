@@ -4,7 +4,6 @@ from flask_login import login_required, login_user, logout_user
 from app import db
 from auth.models import User
 from mail.auth_mail import confirm_signup
-from mail.models import mail_model
 
 view = Blueprint('view', __name__)
 

@@ -10,17 +10,5 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
 
-
-"""
-class User(UserMixin, db.Model):
-    __tablename__ = 'items'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(1000), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-
-    def __init__(self, id, name, password):
-        self.id = id
-        self.name = name
-        self.password = password
-"""
+    def __repr__(self):
+        return '<User %r>' % self.username
