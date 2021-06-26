@@ -1,5 +1,6 @@
-from flask import Blueprint, Response, request, abort, render_template, session
+from flask import Blueprint, Response, request, render_template
 from flask_login import login_required, login_user, logout_user
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
 from auth.models import User
@@ -41,7 +42,13 @@ def login_post():
     password = request.form["password"]
     print("name: " + username)
     # ユーザーチェック
-    user = User.query.filter_by(username=username, password=password).first()
+    db.create_all()
+    users = User.query.filter(User.username == username).all()
+    user = None
+    for u in users:
+        if check_password_hash(u.password, password):
+            user = u
+
     if user is not None:
         # ユーザーが存在した場合はログイン
         login_user(user)
@@ -63,8 +70,13 @@ def signup():
 def signup_post():
     try:
         username = request.form["username"]
-        password = request.form["password"]
+        _password = request.form["password"]
+        # パスワードのハッシュ化
+        password = generate_password_hash(_password)
         email = request.form["email"]
+
+        # DB
+        db.create_all()
         me = User(username=username, password=password, email=email)
         db.session.add(me)
         db.session.commit()

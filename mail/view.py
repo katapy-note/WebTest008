@@ -14,13 +14,6 @@ transmitter = transmitter.mail_transmitter()
 @view.route("/mail", methods=["POST"])
 def mail():
     try:
-        """
-        model = mail_model(
-            'katapy.note@gmail.com',
-            'subject',
-            'Test message'
-        )
-        """
         model = mail_model(
             request.form["usermail"],
             request.form["subject"],
