@@ -1,10 +1,10 @@
 from flask import Blueprint, request
 
-from app import app
 from flask_mail import Mail
 
 from mail import transmitter
 from mail.models import mail_model
+from app import app
 
 view = Blueprint('mail', __name__)
 _mail = Mail(app)
