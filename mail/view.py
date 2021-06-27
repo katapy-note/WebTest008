@@ -1,5 +1,4 @@
 from flask import Blueprint, request
-
 from flask_mail import Mail
 
 from mail import transmitter
